@@ -1,10 +1,5 @@
-import Image from "next/image"
-
-
 
 const About = () => {
-
-    
   return (
     <section className="py-12 bg-gradient-to-r from-blue-500 to-green-500 text-white">
     <div className="container mx-auto">
