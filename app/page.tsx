@@ -1,19 +1,18 @@
-import About from "@/components/ui/About";
-import Contact from "@/components/ui/Contact";
-import Footer from "@/components/ui/Footer";
 import Hero from "@/components/ui/Hero";
-import Services from "@/components/ui/Services";
-import Navbar from "@/components/ui/navbar";
+import Contact from "./contact/page";
+import Services from "./services/page";
+import About from "./about/page";
+
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col bg-gradient-to-r from-slate-300 to-stone-200  justify-between p-4">
-      <Navbar />
+    <main >
+      
       <Hero />
       <About />
       <Services />
       <Contact />
-      <Footer />
+      
     </main>
   );
 }

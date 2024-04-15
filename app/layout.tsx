@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/ui/navbar";
+import Footer from "@/components/ui/Footer";
 
 const fredoka = Nunito({weight: '400', subsets: ['latin']});
 
@@ -17,7 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en"  >
-      <body className={fredoka.className} >{children}</body>
+     
+      <body className={`${fredoka.className} bg-gradient-to-r from-slate-300 to-stone-200 p-4`} >
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
+      
     </html>
   );
 }

@@ -1,20 +1,12 @@
 "use client";
 
-import { MovingBorderBtn } from "./moving-border";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
-import { Input } from "./input";
-import { Textarea } from "./textarea";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { MovingBorderBtn } from "@/components/ui/moving-border";
 
 const formSchema = z.object({
     name: z.string().min(2),
@@ -42,14 +34,14 @@ const Contact = () => {
     }
 
   return (
-    <section className="py-12">
+    <section id="contact" className="py-12 bg-gray-100 dark:bg-grid-white/[0.05] bg-grid-black/[0.05]">
         <div className="container mx-auto">
           
                     <h2 className="text-3xl font-bold text-gray-800 mb-4  text-center">Get in Touch for Tailored Solutions!</h2>
            
                     
                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(handleSubmit)} className="max-w-md mx-auto  bg-white p-8 rounded-2xl ">
+                        <form onSubmit={form.handleSubmit(handleSubmit)} className="max-w-md mx-auto shadow-md shadow-blue-500  bg-white p-8 rounded-2xl ">
                             <div className="mb-4">
                                 <FormField 
                                     control={form.control}
@@ -100,7 +92,7 @@ const Contact = () => {
                                 />
 
                             </div>
-                            <MovingBorderBtn type="submit" className="bg-blue-500 border-green-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">Send Message</MovingBorderBtn>
+                            <MovingBorderBtn type="submit" className="bg-white border-green-100 hover:bg-blue-600 hover:text-white text-green-500 font-bold py-2 px-4 rounded-full">Send Message</MovingBorderBtn>
                         </form>
                     </Form> 
                
