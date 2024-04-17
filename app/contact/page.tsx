@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MovingBorderBtn } from "@/components/ui/moving-border";
 import { formSchema } from "@/lib/schema";
-import { sendEmail } from "../api/route";
+import { SendEmail } from "../api/route";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
 
@@ -29,7 +29,7 @@ const Contact = () => {
 
     const onSubmit: SubmitHandler<ContactFormInputs> = async (data) =>{
         await new Promise((resolve) => setTimeout(resolve, 1000))
-        const result = await sendEmail(data);
+        const result = await SendEmail(data);
 
         if(result?.success){
             console.log(data)
