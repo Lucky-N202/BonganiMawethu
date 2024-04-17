@@ -28,7 +28,7 @@ const Contact = () => {
 
 
     const onSubmit: SubmitHandler<ContactFormInputs> = async (data) =>{
-        
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         const result = await SendEmail(data);
 
         if(result?.success){
