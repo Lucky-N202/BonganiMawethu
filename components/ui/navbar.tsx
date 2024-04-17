@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 const Navbar = () => {
 
@@ -16,8 +17,8 @@ const Navbar = () => {
     <header className="bg-gradient-to-r from-blue-500 to-green-500 rounded-t-2xl py-8">
       <div className="container mx-auto flex justify-between items-center ">
         <div>
-          <Link href="/" className="text-white text-xl font-bold">
-            BonganiMawethu Pty
+          <Link href="/">
+            <Image src="/images/logo.svg" alt="logo" width={150} height={100} className="text-white text-xl font-bold" />
           </Link>
         </div>
         <nav className="hidden md:block">

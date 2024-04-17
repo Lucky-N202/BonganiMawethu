@@ -1,36 +1,55 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MovingBorderBtn } from "@/components/ui/moving-border";
+import { formSchema } from "@/lib/schema";
+import { sendEmail } from "../api/send/route";
+import { toast } from "sonner";
+import { resolve } from "path";
+import { Label } from "@/components/ui/label";
 
-const formSchema = z.object({
-    name: z.string().min(2),
-    email: z.string().email(),
-    message: z.string().min(5)
-
-})
-    
-
-
+export type ContactFormInputs = z.infer<typeof formSchema>;
 
 const Contact = () => {
 
-    const form = useForm<z.infer<typeof formSchema>>({
+//    const form  = useForm<ContactFormInputs>({
+//     resolver: zodResolver(formSchema),
+//    defaultValues: {
+//         name: "",
+//         email: "",
+//         message: ""
+//     }
+//    })
+
+    const {control, register, handleSubmit, reset, formState: {errors, isSubmitting }} = useForm<ContactFormInputs>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            email: "",
-            message: ""
+        name: "",
+        email: "",
+        message: ""
         }
-    });
 
-    const handleSubmit = (values: z.infer<typeof formSchema> ) => {
-        console.log(values)
+    }) 
+
+
+
+    const onSubmit: SubmitHandler<ContactFormInputs> = async (data) =>{
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        const result = await sendEmail(data);
+
+        if(result?.success){
+            console.log(data)
+            toast.success('Email sent, successfully!')
+            reset()
+            return
+        }
+
+        toast.error('Something went wrong!')
+        console.error()
     }
 
   return (
@@ -40,61 +59,48 @@ const Contact = () => {
                     <h2 className="text-3xl font-bold text-gray-800 mb-4  text-center">Get in Touch for Tailored Solutions!</h2>
            
                     
-                   <Form {...form}>
-                        <form onSubmit={form.handleSubmit(handleSubmit)} className="max-w-md mx-auto shadow-md shadow-blue-500  bg-white p-8 rounded-2xl ">
-                            <div className="mb-4">
-                                <FormField 
-                                    control={form.control}
-                                    name="name"
-                                    render={({field }) =>{
-                                        return <FormItem>
-                                            <FormLabel className="block text-gray-700 font-bold mb-2" >Name</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="name" type="text" className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"  {...field}/>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    }}
-                                />
+                   
+        <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto shadow-md shadow-blue-500  bg-white  p-8 rounded-2xl ">
+            <div className="mb-4">
+                <Label className="block text-gray-700 font-bold mb-2">Name</Label>
+                <Controller
+                    name="name"
+                    control={control}
+                    render={({ field }) => <Input {...register("name")} placeholder="Enter name" type="text" className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" {...field} />}
+                />
+                <p className=" text-red-500">{errors.name?.message}</p>                   
+                                         
+                                          
                                
-                            </div>
-                            <div className="mb-4">
+            </div>
+            <div className="mb-4">
+            
+                <Label className="block text-gray-700 font-bold mb-2">Email</Label>
+                 <Controller
+                    name="email"
+                    control={control}
+                    render={({ field }) => <Input {...register("email")} placeholder="Enter email" type="text" className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" {...field} />}
+                />           
+                <p className=" text-red-500">{errors.email?.message}</p>                        
+                               
+                                          
 
-                            <FormField 
-                                    control={form.control}
-                                    name="email"
-                                    render={({field }) =>{
-                                        return <FormItem>
-                                            <FormLabel className="block text-gray-700 font-bold mb-2" >Email</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="email" type="email" className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"  {...field}/>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    }}
-                                />
+             </div>
+            <div className="mb-4">
 
-                            </div>
-                            <div className="mb-4">
+                <Label className="block text-gray-700 font-bold mb-2">Message</Label>
+                <Controller
+                    name="message"
+                    control={control}
+                    render={({ field }) => <Textarea  {...register("message")} placeholder="Type your message here."  rows={4} className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" {...field} />}
+                />                            
+                <p className=" text-red-500">{errors.message?.message}</p>
+                                          
 
-                            <FormField 
-                                    control={form.control}
-                                    name="message"
-                                    render={({field }) =>{
-                                        return <FormItem>
-                                            <FormLabel className="block text-gray-700 font-bold mb-2" >Message</FormLabel>
-                                            <FormControl>
-                                                <Textarea placeholder="Type your message here."  rows={4} className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"  {...field}/>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    }}
-                                />
-
-                            </div>
-                            <MovingBorderBtn type="submit" className="bg-white border-green-100 hover:bg-blue-600 hover:text-white text-green-500 font-bold py-2 px-4 rounded-full">Send Message</MovingBorderBtn>
-                        </form>
-                    </Form> 
+            </div>
+            <MovingBorderBtn disabled={isSubmitting} type="submit" className="bg-white border-green-100 hover:bg-blue-600 hover:text-white text-green-500 font-bold py-2 px-4 rounded-full">{isSubmitting ? "Loading..." : "Send Message"}</MovingBorderBtn>
+        </form>
+                     
                
         </div>
     </section>
