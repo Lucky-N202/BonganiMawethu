@@ -1,8 +1,8 @@
 "use server";
 
-import { formSchema } from "@/lib/schema";
 import { z } from "zod"
 import { Resend } from 'resend';
+import { formSchema } from "@/lib/schema";
 import { EmailTemplate } from "@/components/ui/email-template";
 
 
@@ -11,7 +11,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendEmail(data: ContactFormInputs) {
     const result = formSchema.safeParse(data);
-
+    
     if(result.success){
         const {name, email, message } = result.data;
         try {
