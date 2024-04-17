@@ -7,23 +7,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MovingBorderBtn } from "@/components/ui/moving-border";
 import { formSchema } from "@/lib/schema";
-import { sendEmail } from "../api/send/route";
+import { sendEmail } from "../api/route";
 import { toast } from "sonner";
-import { resolve } from "path";
 import { Label } from "@/components/ui/label";
 
 export type ContactFormInputs = z.infer<typeof formSchema>;
 
 const Contact = () => {
-
-//    const form  = useForm<ContactFormInputs>({
-//     resolver: zodResolver(formSchema),
-//    defaultValues: {
-//         name: "",
-//         email: "",
-//         message: ""
-//     }
-//    })
 
     const {control, register, handleSubmit, reset, formState: {errors, isSubmitting }} = useForm<ContactFormInputs>({
         resolver: zodResolver(formSchema),
