@@ -35,5 +35,7 @@ export async function sendEmail(data: ContactFormInputs) {
     if(result.error){
         return { success: false, error: result.error.format()};
     }
+
+    return 
     
 }
