@@ -7,9 +7,10 @@ import { EmailTemplate } from "@/components/ui/email-template";
 
 
 type ContactFormInputs = z.infer<typeof formSchema>;
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(data: ContactFormInputs) {
+export async function sendEmail(data: ContactFormInputs) {
     const result = formSchema.safeParse(data);
 
     if(result.success){

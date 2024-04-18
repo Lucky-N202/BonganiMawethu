@@ -9,7 +9,7 @@ import { MovingBorderBtn } from "@/components/ui/moving-border";
 import { formSchema } from "@/lib/schema";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
-import { POST } from "../api/route";
+import { sendEmail } from "../api/send/route";
 
 export type ContactFormInputs = z.infer<typeof formSchema>;
 
@@ -29,7 +29,7 @@ const Contact = () => {
 
     const onSubmit: SubmitHandler<ContactFormInputs> = async (data) =>{
         await new Promise((resolve) => setTimeout(resolve, 1000))
-        const result = await POST(data);
+        const result = await sendEmail(data);
 
         if(result?.success){
             console.log(data)
