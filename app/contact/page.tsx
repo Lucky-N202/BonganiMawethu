@@ -31,7 +31,7 @@ const Contact = () => {
         await new Promise((resolve) => setTimeout(resolve, 1000))
         const result = await sendEmail(data);
 
-        if(result?.success){
+        if(result){
             console.log(data)
             toast.success('Email sent, successfully!')
             reset()
