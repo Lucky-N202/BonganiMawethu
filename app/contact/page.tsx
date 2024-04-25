@@ -9,7 +9,8 @@ import { MovingBorderBtn } from "@/components/ui/moving-border";
 import { formSchema } from "@/lib/schema";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
-import { sendEmail } from "../api/send/route";
+
+
 
 export type ContactFormInputs = z.infer<typeof formSchema>;
 
@@ -28,19 +29,33 @@ const Contact = () => {
 
 
     const onSubmit: SubmitHandler<ContactFormInputs> = async (data) =>{
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        const result = await sendEmail(data);
+        
+    
 
-        if(result){
-            console.log(data)
-            toast.success('Email sent, successfully!')
-            reset()
-            return
+            const response = await fetch("/api/send", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: data.name,
+                email: data.email,
+                message: data.message,
+                }),
+            });
+
+            if(response.ok){
+                console.log(data)
+                toast.success('Email sent, successfully!')
+                reset()
+                return
+            }else {
+                toast.error("There was a problem sending email. Pls try again!");
+            }
+        
         }
-
-        toast.error('Something went wrong!')
-        console.error()
-    }
+     
+    
 
   return (
     <section id="contact" className="py-12 bg-gray-100 dark:bg-grid-white/[0.05] bg-grid-black/[0.05]">
@@ -65,7 +80,7 @@ const Contact = () => {
                  <Controller
                     name="email"
                     control={control}
-                    render={({ field }) => <Input {...register("email")} placeholder="Enter email" type="text" className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" {...field} />}
+                    render={({ field }) => <Input {...register("email")} placeholder="Enter email" type="email" className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" {...field} />}
                 />           
                 <p className=" text-red-500">{errors.email?.message}</p>                        
                         
