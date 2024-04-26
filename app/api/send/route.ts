@@ -5,6 +5,7 @@ import { Resend } from 'resend';
 import { formSchema } from "@/lib/schema";
 import { EmailTemplate } from "@/components/ui/email-template";
 import { NextRequest, NextResponse } from "next/server";
+import WelcomeEmail from "@/emails";
 
 
 type ContactFormInputs = z.infer<typeof formSchema>;
@@ -33,8 +34,7 @@ export async function POST(req: NextRequest  ) {
                 from: 'Acme <onboarding@resend.dev>',
                 to: [email],
                 subject: 'Contact Form Submission',
-                text: `Name: ${name}\nEmail: ${email}/nMessage: ${message}`,
-                react: EmailTemplate({ name, email, message }) 
+                react: WelcomeEmail({ name, email, message }) 
             })
 
             if (error) {
